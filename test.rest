@@ -1,7 +1,7 @@
 ### Variables
 @baseUrl = http://localhost:5000/api
 @employerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZTYzYWQwYjE1MTU0MTE1NTRjY2M5OCIsInJvbGUiOiJFbXBsb3llciIsImlhdCI6MTc3NjY5NjAxNn0.LIfXq8dK-DcJaKY_APeQetKTfRcx9RP8Ji89XWJX4fA
-@candidateToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZTYzYWU0YjE1MTU0MTE1NTRjY2M5OSIsInJvbGUiOiJDYW5kaWRhdGUiLCJpYXQiOjE3NzY2OTYwMzZ9.V5sRcGpN9KUG9KrMM4A6X7T-ArMQp_A-S1bPl_FGosk
+@candidateToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZTY1MzEwM2NmMDIxMDcwNjFhNTU0OCIsInJvbGUiOiJDYW5kaWRhdGUiLCJpYXQiOjE3NzY3MDIyMjV9.ZjFSlH0iwalEBJvXUrrlInQ2u2k62ujvo2vLXWepzk4
 
 ##############################################
 # AUTHENTICATION
@@ -24,8 +24,8 @@ POST {{baseUrl}}/register
 Content-Type: application/json
 
 {
-    "name": "John Doe",
-    "email": "john@example.com",
+    "name": "hana Dereje",
+    "email": "hana@example.com",
     "password": "password123",
     "role": "Candidate"
 }
@@ -40,9 +40,9 @@ Authorization: Bearer {{employerToken}}
 Content-Type: application/json
 
 {
-    "title": "Senior Node.js Developer",
+    "title": "Senior Django Developer",
     "description": "Develop high-scale REST APIs.",
-    "requirements": ["Node.js", "MongoDB", "Express"],
+    "requirements": ["Python", "Django", "PostgreSQL"],
     "salaryRange": "$80k - $120k",
     "location": "Remote",
     "jobType": "Remote"
@@ -56,7 +56,7 @@ Content-Type: application/json
 GET {{baseUrl}}/jobs
 
 ### Filter Jobs by Location & Keyword
-GET {{baseUrl}}/jobs?location=Remote&keyword=Node
+GET {{baseUrl}}/jobs?location=Remote&keyword=Senior
 
 ##############################################
 # APPLICATIONS
@@ -65,15 +65,15 @@ GET {{baseUrl}}/jobs?location=Remote&keyword=Node
 ### Apply for a Job (Candidate Only)
 # Note: In REST Client, use 'multipart/form-data' for file uploads. 
 # Replace <jobId> with a real ID from the Get Jobs request.
-POST {{baseUrl}}/applications/apply/69e63b07b1515411554ccc9a
+POST {{baseUrl}}/applications/apply/69e64675479f2912dbbdc3e4
 Authorization: Bearer {{candidateToken}}
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
-Content-Disposition: form-data; name="resume"; filename="resume.pdf"
+Content-Disposition: form-data; name="resume"; filename="cv.pdf"
 Content-Type: application/pdf
 
-< ./resume.pdf
+< C:/Users/MikiyasDereje/Pictures/cv.pdf
 --boundary--
 
 ### View My Applications (Candidate Only)
@@ -84,3 +84,13 @@ Authorization: Bearer {{candidateToken}}
 # Replace <jobId> with the ID of the job you created
 GET {{baseUrl}}/applications/jobs/69e63b07b1515411554ccc9a/applications
 Authorization: Bearer {{employerToken}}
+
+### Update Application Status (Employer Only)
+# Replace <appId> with the actual ID of an application
+PATCH {{baseUrl}}/applications/69e653de3cf02107061a5549/status
+Authorization: Bearer {{employerToken}}
+Content-Type: application/json
+
+{
+    "status": "Accepted"
+}

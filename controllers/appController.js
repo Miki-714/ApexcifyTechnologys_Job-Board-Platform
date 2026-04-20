@@ -26,3 +26,27 @@ exports.getJobApplications = async (req, res) => {
   );
   res.json(apps);
 };
+
+exports.updateApplicationStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const { appId } = req.params;
+
+    // 1. Explicitly overwrite the status field
+    const updatedApp = await Application.findByIdAndUpdate(
+      appId,
+      { $set: { status: status } }, // $set ensures the old value is replaced
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedApp)
+      return res.status(404).json({ error: "Application not found" });
+
+    res.json({
+      message: `Status shifted to ${status}`,
+      application: updatedApp,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

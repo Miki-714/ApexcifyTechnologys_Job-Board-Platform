@@ -10,8 +10,15 @@ const applicationSchema = new mongoose.Schema(
     },
     resumeURL: { type: String, required: true },
     status: {
-      type: String,
-      enum: ["Pending", "Reviewed", "Accepted", "Rejected"],
+      type: String, // Ensure this is String, NOT [String]
+      enum: [
+        "Pending",
+        "Reviewed",
+        "Interviewing",
+        "Accepted",
+        "Rejected",
+        "Withdrawn",
+      ],
       default: "Pending",
     },
   },
