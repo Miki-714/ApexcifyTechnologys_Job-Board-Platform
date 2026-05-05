@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const jobRoutes = require("./routes/jobRoutes");
 const appRoutes = require("./routes/appRoutes");
-const { register } = require("./controllers/authController");
+const { register, login } = require("./controllers/authController");
 
 const app = express();
 app.use(express.json());
@@ -16,6 +16,7 @@ mongoose
 
 // Public Auth Route
 app.post("/api/register", register);
+app.post("/api/login", login);
 
 // API Routes
 app.use("/api/jobs", jobRoutes);

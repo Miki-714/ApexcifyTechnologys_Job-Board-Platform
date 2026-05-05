@@ -1,8 +1,7 @@
 ### Variables
 @baseUrl = http://localhost:5000/api
-@employerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZTYzYWQwYjE1MTU0MTE1NTRjY2M5OCIsInJvbGUiOiJFbXBsb3llciIsImlhdCI6MTc3NjY5NjAxNn0.LIfXq8dK-DcJaKY_APeQetKTfRcx9RP8Ji89XWJX4fA
-@candidateToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZTY1MzEwM2NmMDIxMDcwNjFhNTU0OCIsInJvbGUiOiJDYW5kaWRhdGUiLCJpYXQiOjE3NzY3MDIyMjV9.ZjFSlH0iwalEBJvXUrrlInQ2u2k62ujvo2vLXWepzk4
-
+@employerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZjlkMDA2NTYzNjJiZDczMjA5OWRkYSIsInJvbGUiOiJFbXBsb3llciIsImlhdCI6MTc3Nzk3OTQ1NiwiZXhwIjoxNzc4MDY1ODU2fQ.iQSd3vxdJy-2vJn1w49fMtsQstx2ETaiDMz6RvKbUVk
+@candidateToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZjlkMDM3NTYzNjJiZDczMjA5OWRkYiIsInJvbGUiOiJDYW5kaWRhdGUiLCJpYXQiOjE3Nzc5Nzk0OTIsImV4cCI6MTc3ODA2NTg5Mn0.C1Sm7h1VGQ6LiQjG8q3VhoenQPlUQPbD9PCeutOYiZc
 ##############################################
 # AUTHENTICATION
 ##############################################
@@ -12,8 +11,8 @@ POST {{baseUrl}}/register
 Content-Type: application/json
 
 {
-    "name": "Apexcify HR",
-    "email": "hr@apexcify.com",
+    "name": "staff",
+    "email": "staff@apexcify.com",
     "password": "password123",
     "role": "Employer",
     "companyDescription": "Leading tech innovators."
@@ -24,8 +23,28 @@ POST {{baseUrl}}/register
 Content-Type: application/json
 
 {
-    "name": "hana Dereje",
-    "email": "hana@example.com",
+    "name": "sara Dereje",
+    "email": "sara@example.com",
+    "password": "password123",
+    "role": "Candidate"
+}
+
+### Login as an Employer
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "email": "staff@apexcify.com",
+    "password": "password123",
+    "role": "Employer"
+}
+
+### Login as a Candidate
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "email": "sara@example.com",
     "password": "password123",
     "role": "Candidate"
 }
@@ -40,9 +59,9 @@ Authorization: Bearer {{employerToken}}
 Content-Type: application/json
 
 {
-    "title": "Senior Django Developer",
-    "description": "Develop high-scale REST APIs.",
-    "requirements": ["Python", "Django", "PostgreSQL"],
+    "title": "Graphics Designer",
+    "description": "We are seeking a talented Graphics Designer to create visually stunning designs for our clients. The ideal candidate will have a strong portfolio showcasing their creativity and proficiency in design software.",
+    "requirements": ["Proficiency in design software", "Strong portfolio", "Excellent communication skills"],
     "salaryRange": "$80k - $120k",
     "location": "Remote",
     "jobType": "Remote"
@@ -56,7 +75,7 @@ Content-Type: application/json
 GET {{baseUrl}}/jobs
 
 ### Filter Jobs by Location & Keyword
-GET {{baseUrl}}/jobs?location=Remote&keyword=Senior
+GET {{baseUrl}}/jobs?location=Remote&keyword=Graphics Designer
 
 ##############################################
 # APPLICATIONS
@@ -65,7 +84,7 @@ GET {{baseUrl}}/jobs?location=Remote&keyword=Senior
 ### Apply for a Job (Candidate Only)
 # Note: In REST Client, use 'multipart/form-data' for file uploads. 
 # Replace <jobId> with a real ID from the Get Jobs request.
-POST {{baseUrl}}/applications/apply/69e64675479f2912dbbdc3e4
+POST {{baseUrl}}/applications/apply/69f9d0f956362bd732099ddc
 Authorization: Bearer {{candidateToken}}
 Content-Type: multipart/form-data; boundary=boundary
 
@@ -73,7 +92,7 @@ Content-Type: multipart/form-data; boundary=boundary
 Content-Disposition: form-data; name="resume"; filename="cv.pdf"
 Content-Type: application/pdf
 
-< C:/Users/MikiyasDereje/Pictures/cv.pdf
+< C:/Users/MikiyasDereje/Desktop/cv.pdf
 --boundary--
 
 ### View My Applications (Candidate Only)
@@ -82,12 +101,12 @@ Authorization: Bearer {{candidateToken}}
 
 ### View Applications for a Specific Job (Employer Only)
 # Replace <jobId> with the ID of the job you created
-GET {{baseUrl}}/applications/jobs/69e63b07b1515411554ccc9a/applications
+GET {{baseUrl}}/applications/jobs/69f9d0f956362bd732099ddc/applications
 Authorization: Bearer {{employerToken}}
 
 ### Update Application Status (Employer Only)
 # Replace <appId> with the actual ID of an application
-PATCH {{baseUrl}}/applications/69e653de3cf02107061a5549/status
+PATCH {{baseUrl}}/applications/69f9d18556362bd732099ddd/status
 Authorization: Bearer {{employerToken}}
 Content-Type: application/json
 
